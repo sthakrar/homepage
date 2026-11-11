@@ -1,0 +1,403 @@
+/* =====================================================================
+   index.css - styles for the imaging app.
+   Colours, fonts, header and card styling match the homepage
+   (../css/style.css), so the two feel like one site.
+   ===================================================================== */
+
+/* 1. Variables: copied from the homepage's :root */
+:root {
+  --bg: #eef3f8;
+  --grid-dot: #cdd8e5;
+  --surface: #ffffff;
+  --border: #d6e0eb;
+  --ink: #0f2a44;
+  --text: #22364d;
+  --muted: #5f7189;
+  --accent: #1d6fd8;
+  --accent-soft: #e6f0fc;   /* pale blue fill for tags and the active pill */
+
+  --font-heading: "Source Serif 4", Georgia, serif;
+  --font-body: "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+
+  --gutter: clamp(16px, 8vw, 120px);
+  --header-h: 64px;
+}
+
+/* 2. Base */
+*,
+*::before,
+*::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background-color: var(--bg);
+  background-image: radial-gradient(var(--grid-dot) 1px, transparent 1px);
+  background-size: 22px 22px;
+  color: var(--text);
+  font: 16px/1.6 var(--font-body);
+}
+
+h1,
+h2 {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.15;
+}
+
+/* 3. Header bar: same as the homepage */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  height: var(--header-h);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--gutter);
+  background: rgba(238, 243, 248, 0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+}
+
+.site-header .brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--ink);
+  border-radius: 8px;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.site-nav { display: flex; gap: 1.5rem; }
+
+.site-nav a {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.site-header a:hover,
+.site-header a:focus-visible { color: var(--accent); }
+.site-header .brand:hover,
+.site-header .brand:focus-visible { border-color: var(--accent); }
+
+/* 4. Page intro */
+.page {
+  max-width: calc(1100px + 2 * var(--gutter));
+  padding: 3rem var(--gutter) 4rem;
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+}
+
+.page h1 {
+  margin-top: 0.4rem;
+  font-size: clamp(1.8rem, 6vw, 2.6rem);
+  letter-spacing: -0.01em;
+}
+
+.lede {
+  margin-top: 0.75rem;
+  max-width: 56ch;
+  color: var(--muted);
+}
+
+/* 5. Filter pills */
+.filter-bar {
+  position: relative;                 /* the sources panel is placed against this row */
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1.5rem;
+  margin-top: 2rem;
+}
+
+.pills { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+
+.pill {
+  padding: 0.4rem 0.9rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+
+.pill:hover { color: var(--accent); border-color: var(--accent); }
+
+.pill[aria-pressed="true"] {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.pill:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.count {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
+/* 6. Card grid: as many 240px+ columns as fit, like the homepage's projects */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+}
+
+.scan-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;                   /* clip the image to the rounded corners */
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: 0 6px 20px rgba(15, 42, 68, 0.05);
+  transition: border-color 0.2s, transform 0.2s;
+}
+
+.scan-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-3px);
+}
+
+/* Dark-on-white scans are flipped to match the rest */
+.scan-image.invert img { filter: invert(1) grayscale(1) contrast(1.1); }
+
+.scan-card:hover .scan-image img { filter: none; }
+
+/* Every scan gets the same treatment so the grid reads as one set:
+   - the same 4:3 box, filled edge to edge (object-fit: cover crops the
+     overflow; each scan's "focus" in the data picks what to keep)
+   - greyscale with a little extra contrast, so tints don't clash
+   Hovering the card brings the original colours back, since for some
+   scans (Doppler, PET) the colour carries the meaning. */
+.scan-image {
+  overflow: hidden;
+  background: var(--ink);
+}
+
+.scan-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  filter: grayscale(1) contrast(1.1);
+  transition: filter 0.3s;
+  color: #8a9ab0;                     /* alt text colour if the image fails */
+  font: 0.8rem var(--font-mono);
+}
+
+.scan-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 1.1rem 1.25rem 1.25rem;
+}
+
+.tag {
+  align-self: flex-start;
+  padding: 0.15rem 0.55rem;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  background: var(--accent-soft);
+  border-radius: 999px;
+}
+
+.scan-body h2 {
+  margin-top: 0.6rem;
+  font-size: 1.2rem;
+}
+
+.shows {
+  margin-top: 0.2rem;
+  font-size: 0.92rem;
+  color: var(--muted);
+}
+
+/* Three small stats, one per row: label on the left, value on the right */
+.stats {
+  margin-top: 1rem;
+  border-top: 1px solid var(--border);
+}
+
+.stats div {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.45rem 0;
+  border-bottom: 1px dashed var(--border);
+}
+
+.stats dt {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #8a9ab0;
+}
+
+.stats dd {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+.credit {
+  margin-top: auto;                   /* pin to the bottom of the card */
+  padding-top: 0.9rem;
+  font-size: 0.72rem;
+  line-height: 1.45;
+  color: #8a9ab0;
+}
+
+.credit a { color: inherit; text-decoration: none; }
+
+.credit a:hover,
+.credit a:focus-visible { color: var(--accent); text-decoration: underline; }
+
+/* 7. Sources: an "i" button next to the count, with a panel that opens
+   on hover, keyboard focus, or tap (.is-open, set in SourcesInfo.jsx).
+   The panel lines up with the right edge of the filter row, so it stays
+   on screen whether the count sits on the right (desktop) or wraps to
+   the left (phone). */
+.count-row {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.info-button {
+  display: flex;
+  padding: 2px;
+  color: var(--muted);
+  background: none;
+  border: 0;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.info-button svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+}
+
+.info:hover .info-button,
+.info.is-open .info-button { color: var(--accent); }
+
+.info-button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.info-panel {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  z-index: 20;
+  width: min(380px, calc(100vw - 32px));
+  margin-top: 8px;
+  padding: 1rem 1.1rem;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--muted);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 12px 32px rgba(15, 42, 68, 0.14);
+  /* hidden until opened */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-4px);
+  transition: opacity 0.15s, transform 0.15s, visibility 0s linear 0.15s;
+}
+
+/* Invisible strip over the 8px gap, so the mouse can move from the
+   button into the panel without it closing */
+.info-panel::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -9px;
+  height: 9px;
+}
+
+.info:hover .info-panel,
+.info:focus-within .info-panel,
+.info.is-open .info-panel {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition: opacity 0.15s, transform 0.15s, visibility 0s;
+}
+
+.info-title {
+  margin-bottom: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ink);
+}
+
+.info-panel ul {
+  margin-bottom: 0.7rem;
+  padding-left: 1rem;
+}
+
+.info-panel li + li { margin-top: 0.45rem; }
+
+.info-panel a { color: var(--accent); }
+
+.info-scans {
+  display: block;
+  color: var(--text);
+}
+
+.info-panel p + p { margin-top: 0.5rem; }
+
+/* 8. Reduced motion: no hover lift */
+@media (prefers-reduced-motion: reduce) {
+  .scan-card:hover { transform: none; }
+  .info-panel { transition: none; }
+}

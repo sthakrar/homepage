@@ -488,7 +488,7 @@ body.panel-open .hero {
 }
 
 .project {
-  padding: 1.5rem;
+  overflow: hidden;                    /* clip the poster to the rounded corners */
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 14px;
@@ -510,6 +510,72 @@ body.panel-open .hero {
 .project p {
   font-size: 0.92rem;
   color: var(--muted);
+}
+
+/* The whole card is one link */
+.project-link {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  color: inherit;
+  text-decoration: none;
+}
+
+.project-link:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+  border-radius: 14px;
+}
+
+/* Poster image on top, on the darkest blue (scans are dark).
+   aspect-ratio fixes the box to 16:9; object-fit: cover fills it. */
+.project-poster { background: var(--ink); }
+
+.project-poster img,
+.project-poster svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+.project-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 1.25rem 1.5rem 1.5rem;
+}
+
+/* Row of tags, for cards with more than one */
+.project-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+/* Small pill naming the tech, e.g. "React" */
+.project-tag {
+  align-self: flex-start;
+  padding: 0.15rem 0.55rem;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  background: #e6f0fc;
+  border-radius: 999px;
+}
+
+.project-cta {
+  margin-top: auto;
+  padding-top: 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent);
 }
 
 

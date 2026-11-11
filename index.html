@@ -81,10 +81,55 @@
     <a class="close-panel" href="#">&larr; Back</a>
     <h2>Projects</h2>
 
-    <!-- TODO: replace with your project. To add more, copy the whole <article>...</article> block. -->
+    <!-- To add a project, copy the whole <article>...</article> block.
+         The <a> wraps the card so the whole card is clickable. -->
     <div class="project-grid">
       <article class="project">
-        <p>[placeholder text]</p>
+        <a class="project-link" href="imaging/">
+          <div class="project-poster">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/MRI%20brain%20sagittal%20section.jpg?width=400" alt="" loading="lazy" />
+          </div>
+          <div class="project-body">
+            <span class="project-tag">React</span>
+            <h3>Medical Imaging Explorer</h3>
+            <p>What each scan shows, how much radiation it uses, and how long it takes.</p>
+            <span class="project-cta">Open &rarr;</span>
+          </div>
+        </a>
+      </article>
+
+      <article class="project">
+        <a class="project-link" href="barplot/">
+          <!-- Poster: a small preview of the bar chart (top 7 countries), drawn in SVG -->
+          <div class="project-poster">
+            <svg viewBox="0 0 320 180" aria-hidden="true">
+              <g stroke="#2a4866" stroke-width="1">
+                <line x1="28" y1="10" x2="28" y2="170" />
+                <line x1="105.6" y1="10" x2="105.6" y2="170" />
+                <line x1="183.3" y1="10" x2="183.3" y2="170" />
+                <line x1="260.9" y1="10" x2="260.9" y2="170" />
+              </g>
+              <g fill="#7cc4ff">
+                <rect x="28" y="17"  width="264"  height="14" rx="2" />
+                <rect x="28" y="39"  width="81.5" height="14" rx="2" />
+                <rect x="28" y="61"  width="81.5" height="14" rx="2" />
+                <rect x="28" y="83"  width="77.6" height="14" rx="2" />
+                <rect x="28" y="105" width="50.5" height="14" rx="2" />
+                <rect x="28" y="127" width="38.8" height="14" rx="2" />
+                <rect x="28" y="149" width="34.9" height="14" rx="2" />
+              </g>
+            </svg>
+          </div>
+          <div class="project-body">
+            <div class="project-tags">
+              <span class="project-tag">D3 + React</span>
+              <span class="project-tag">Cohort 2</span>
+            </div>
+            <h3>Students by Country</h3>
+            <p>How many students from each country joined the first cohort of a data visualization course.</p>
+            <span class="project-cta">Open &rarr;</span>
+          </div>
+        </a>
       </article>
     </div>
   </section>
