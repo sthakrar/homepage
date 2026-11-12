@@ -5,9 +5,9 @@ import { imageUrl, creditUrl, licenseUrl } from "../data/imaging.js";
 const formatDose = (msv) =>
   msv === null ? "Varies" : msv === 0 ? "None" : `${msv} mSv`;
 
-// Minutes under an hour stay as "45 min"; longer ones become "8 h"
+// Typical times are approximate: "~45 min", and long ones in hours ("~8 h")
 const formatTime = (minutes) =>
-  minutes >= 120 ? `${minutes / 60} h` : `${minutes} min`;
+  minutes >= 120 ? `~${minutes / 60} h` : `~${minutes} min`;
 
 export default function ImagingCard({ scan }) {
   return (
@@ -42,6 +42,20 @@ export default function ImagingCard({ scan }) {
           <div>
             <dt>Time</dt>
             <dd>{formatTime(scan.minutes)}</dd>
+          </div>
+          <div>
+            <dt>First used</dt>
+            <dd>
+              {/* The year links to its source */}
+              <a
+                className="year-link"
+                href={scan.firstUsedSource}
+                target="_blank"
+                rel="noopener"
+              >
+                {scan.firstUsed}
+              </a>
+            </dd>
           </div>
         </dl>
 

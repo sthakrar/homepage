@@ -57,7 +57,11 @@ export default function SourcesInfo() {
         <p>
           Doses are typical values for an average adult and vary with the
           patient, machine and protocol. "Like background" assumes about 3 mSv
-          a year of natural radiation. Scan times are rough typical values.
+          a year of natural radiation. Scan times (~) are rough typical values.
+        </p>
+        <p>
+          First used is the year each technique was first used to image a
+          living person; click a year on a card to see its source.
         </p>
         <p>
           Images are from Wikimedia Commons, credited on each card, and shown
