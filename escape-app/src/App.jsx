@@ -1,13 +1,14 @@
-// App.jsx - the page: intro, then the chart laid out like the original
-// (title, subtitle, chart, sources footer). The chart's width follows its
+// App.jsx - the page: intro, then the chart recreated as in the original
+// (red rule, title, subtitle, chart, sources and credit). The chart's width follows its
 // container, so it fits phones and desktops.
 import { useEffect, useRef, useState } from "react";
 import { data } from "./data/infections.js";
 import Barplot from "./components/Barplot.jsx";
 
-// Largest first, so the chart reads from the biggest bar down
-// (the original chart runs the other way, smallest at the top)
-const sorted = [...data].sort((a, b) => b.count - a.count);
+// Largest first, in the original chart's order (the dataset lists the
+// diseases smallest first, so reversing it gives Brucella at the top and
+// Dengue above Tularemia, as in the original)
+const sorted = [...data].reverse();
 
 export default function App() {
   // Measure the chart box and re-measure when the window resizes
@@ -35,12 +36,13 @@ export default function App() {
         <p className="eyebrow">D3 project · Cohort 2</p>
         <h1>Escape Artists</h1>
         <p className="lede">
-          Laboratory-acquired infections by disease, 1970-2021: a recreation of
-          a bar chart from The Economist.
+          Laboratory-acquired infections by disease, 1970-2021.
         </p>
 
         {/* The chart, laid out like the original */}
         <figure className="chart-card">
+          {/* Red rule across the top, with a short red tag at its left */}
+          <div className="chart-rule" aria-hidden="true" />
           <figcaption>
             <p className="chart-title">Escape artists</p>
             <p className="chart-subtitle">
@@ -57,7 +59,7 @@ export default function App() {
               Sources: Laboratory-Acquired Infection Database; American
               Biological Safety Association
             </p>
-            <p>Chart design after The Economist.</p>
+            <p>The Economist</p>
           </footer>
         </figure>
       </main>

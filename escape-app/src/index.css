@@ -118,72 +118,83 @@ h1 {
   color: var(--muted);
 }
 
-/* 5. The chart card: title, subtitle, chart, footer */
+/* 5. The chart, recreating the original: Roboto, a red rule and tag on
+   top, slate-blue bars, light grey gridlines, grey numbers and footer.
+   Colours were sampled from the original image. */
 .chart-card {
+  --econ-red: #d22d2b;
+  --econ-blue: #306d9e;
+  --econ-grid: #e8e8e8;
+  --econ-grey: #808080;
+  --econ-ink: #121212;
+
   margin-top: 2rem;
-  padding: 1.5rem clamp(1rem, 4vw, 2rem) 1.25rem;
-  background: var(--surface);
+  padding: 2rem clamp(1rem, 4vw, 2rem) 1.5rem;
+  font-family: "Roboto", var(--font-body);
+  background: #ffffff;
   border: 1px solid var(--border);
   border-radius: 14px;
   box-shadow: 0 6px 20px rgba(15, 42, 68, 0.05);
 }
 
+/* Thin red line with a short, thicker red tag at its left end */
+.chart-rule {
+  position: relative;
+  height: 1px;
+  background: var(--econ-red);
+}
+
+.chart-rule::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 36px;
+  height: 9px;
+  background: var(--econ-red);
+}
+
 .chart-title {
-  font-size: 1.15rem;
-  font-weight: 600;
-  color: var(--ink);
+  margin-top: 0.85rem;
+  font-size: 1.3rem;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--econ-ink);
 }
 
 .chart-subtitle {
-  margin-top: 0.1rem;
-  font-size: 0.95rem;
-  color: var(--text);
+  margin-top: 0.45rem;
+  font-size: 1.05rem;
+  line-height: 1.35;
+  color: var(--econ-ink);
 }
 
 .chart-box {
   width: 100%;
-  margin-top: 1rem;
+  margin-top: 1.4rem;
 }
 
-.barplot { display: block; overflow: visible; }
+.barplot { display: block; overflow: visible; font-family: "Roboto", var(--font-body); }
 
-/* Gridlines and their values: faint, with a solid line at zero */
-.barplot .grid { stroke: #dfe6ee; stroke-width: 1; }
-.barplot .baseline { stroke: var(--ink); stroke-width: 1.5; }
+.barplot .grid { stroke: var(--econ-grid); stroke-width: 1; }
+.barplot .baseline { stroke: #000000; stroke-width: 1; }
 
 .barplot .tick {
-  font-family: var(--font-body);
-  font-size: 12px;
-  fill: var(--muted);
+  font-size: 13px;
+  fill: var(--econ-grey);
 }
 
-.barplot .bar {
-  fill: var(--accent);
-  transition: fill 0.2s;
-}
+.barplot .bar { fill: var(--econ-blue); }
 
 /* Names: white inside a bar, bar-coloured outside it */
-.barplot .label { font-family: var(--font-body); font-weight: 500; }
+.barplot .label { font-weight: 400; }
 .barplot .label.inside { fill: #ffffff; }
-.barplot .label.outside { fill: var(--accent); }
-
-/* Hovering a bar darkens it */
-.barplot .row { cursor: default; }
-.barplot .row:hover .bar { fill: var(--ink); }
-.barplot .row:hover .label.outside { fill: var(--ink); }
+.barplot .label.outside { fill: var(--econ-blue); }
 
 .chart-footer {
-  margin-top: 1rem;
-  padding-top: 0.8rem;
-  border-top: 1px solid var(--border);
-  font-size: 0.75rem;
-  line-height: 1.5;
-  color: #8a9ab0;
+  margin-top: 0.6rem;
+  font-size: 0.82rem;
+  line-height: 1.6;
+  color: var(--econ-grey);
 }
 
-.chart-footer p + p { margin-top: 0.2rem; }
-
-/* 6. Reduced motion */
-@media (prefers-reduced-motion: reduce) {
-  .barplot .bar { transition: none; }
-}

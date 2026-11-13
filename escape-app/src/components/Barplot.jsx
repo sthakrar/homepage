@@ -1,40 +1,40 @@
-// Barplot.jsx - a horizontal bar chart in the style of The Economist:
-// gridlines with their values along the top, a solid baseline at zero,
-// and each name with its count, e.g. "Ebola (n=9)", written inside its bar
-// (or just outside, if the bar is too short to hold it).
+// Barplot.jsx - a horizontal bar chart recreating The Economist's
+// "Escape artists" chart: gridlines every 5 with their values along the
+// top, a black baseline at zero, and each name written inside its bar in
+// white (or just outside in the bar colour, if the bar is too short).
 //
 // D3 does only the math (scaleBand, scaleLinear). React renders the SVG.
-import { scaleBand, scaleLinear, max } from "d3";
+import { scaleBand, scaleLinear } from "d3";
 
-const MARGIN = { top: 26, right: 12, bottom: 4, left: 0 };
-const ROW_HEIGHT = 34;    // vertical space per bar
-const LABEL_SIZE = 13;    // font size of the names, in px
-const LABEL_PAD = 8;      // gap between a bar's start and its name
+const MARGIN = { top: 30, right: 14, bottom: 4, left: 0 };
+const ROW_HEIGHT = 41;    // vertical space per bar (bar + gap), as in the original
+const LABEL_SIZE = 15;    // font size of the names, in px
+const LABEL_PAD = 7;      // gap between a bar's start (or end) and its name
 
 // Rough width of a name in pixels, to decide whether it fits in its bar.
-// (0.58 x font size per character is close enough for Inter.)
-const labelWidth = (text) => text.length * LABEL_SIZE * 0.58;
+// (0.56 x font size per character is close enough for Roboto.)
+const labelWidth = (text) => text.length * LABEL_SIZE * 0.56;
 
 export default function Barplot({ data, width }) {
   const height = MARGIN.top + data.length * ROW_HEIGHT + MARGIN.bottom;
   const innerWidth = Math.max(0, width - MARGIN.left - MARGIN.right);
   const innerHeight = height - MARGIN.top - MARGIN.bottom;
 
-  // Y: one band per disease, in the order given
+  // Y: one band per disease, in the order given. Bars fill about 62% of
+  // each row, like the original.
   const yScale = scaleBand()
     .domain(data.map((d) => d.name))
     .range([0, innerHeight])
-    .padding(0.22);
+    .paddingInner(0.38)
+    .paddingOuter(0.1);
 
-  // X: 0 at the left, rounded up to a gridline past the largest count
-  const xScale = scaleLinear()
-    .domain([0, max(data, (d) => d.count)])
-    .range([0, innerWidth])
-    .nice();
+  // X: 0 to 55, as in the original
+  const xScale = scaleLinear().domain([0, 55]).range([0, innerWidth]);
 
-  // Gridline every 5 on wide screens, every 10 on narrow ones
-  const step = innerWidth > 480 ? 5 : 10;
-  const ticks = xScale.ticks().filter((t) => t % step === 0 && t > 0);
+  // Gridline every 5 on wide screens, every 10 on narrow ones (so the
+  // numbers along the top don't collide)
+  const step = innerWidth > 420 ? 5 : 10;
+  const ticks = xScale.ticks(11).filter((t) => t % step === 0);
 
   return (
     <svg
@@ -48,8 +48,8 @@ export default function Barplot({ data, width }) {
         {/* Gridlines, with their values along the top */}
         {ticks.map((tick) => (
           <g key={tick} transform={`translate(${xScale(tick)}, 0)`}>
-            <line className="grid" y1={-4} y2={innerHeight} />
-            <text className="tick" y={-10} textAnchor="middle">
+            {tick > 0 && <line className="grid" y1={-6} y2={innerHeight} />}
+            <text className="tick" y={-12} textAnchor="middle">
               {tick}
             </text>
           </g>
@@ -59,8 +59,9 @@ export default function Barplot({ data, width }) {
         {data.map((d) => {
           const y = yScale(d.name);
           const barWidth = xScale(d.count);
-          const text = `${d.name} (n=${d.count})`;
-          const fits = labelWidth(text) + LABEL_PAD * 2 < barWidth;
+          // Inside only with room to spare, as in the original (where Ebola's
+          // name sits inside its bar but Dengue's, one bar shorter, does not)
+          const fits = labelWidth(d.name) + 40 < barWidth;
           return (
             <g key={d.name} className="row">
               <rect
@@ -77,7 +78,7 @@ export default function Barplot({ data, width }) {
                 dominantBaseline="central"
                 fontSize={LABEL_SIZE}
               >
-                {text}
+                {d.name}
               </text>
               {/* Exact count, shown on hover */}
               <title>{`${d.name}: ${d.count} infections`}</title>
@@ -85,11 +86,8 @@ export default function Barplot({ data, width }) {
           );
         })}
 
-        {/* Solid baseline at zero, drawn last so it sits on top */}
-        <line className="baseline" x1={0} x2={0} y1={-4} y2={innerHeight} />
-        <text className="tick" x={0} y={-10} textAnchor="start">
-          0
-        </text>
+        {/* Black baseline at zero, drawn last so it sits on top */}
+        <line className="baseline" x1={0} x2={0} y1={-6} y2={innerHeight} />
       </g>
     </svg>
   );
