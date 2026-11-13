@@ -66,7 +66,7 @@ export default function App() {
 
       <main className="page">
         <p className="eyebrow">D3 project · Cohort 2</p>
-        <h1>Why Trials Stop Early</h1>
+        <h1>Why Clinical Trials Stop Early</h1>
         <p className="lede">
           Why {fmt(total)} clinical trials on ClinicalTrials.gov stopped early
           in {fromYear}-{toYear}.
@@ -96,7 +96,13 @@ export default function App() {
                 />
               )}
             </div>
-            <Legend data={data} total={total} active={active} onActive={setActive} />
+            <Legend
+              data={data}
+              total={total}
+              active={active}
+              onActive={setActive}
+              otherBreakdown={snapshot.otherBreakdown}
+            />
           </div>
 
           <footer className="chart-footer">
@@ -111,7 +117,8 @@ export default function App() {
                 {SOURCES.rules.label}
               </a>
               ); checked by hand against random samples, the rules agreed about
-              88% of the time, and most misses fall into "Other".
+              88% of the time. "Other" is split into themes the same way; its
+              biggest part is one-off reasons that fit no theme.
             </p>
             <p>
               Categories follow{" "}

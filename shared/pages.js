@@ -10,6 +10,6 @@ export const PAGES = [
   { key: "home", label: "Home", path: "", title: "Home" },
   { key: "imaging", label: "Project #1", path: "imaging/", title: "React Foundation - Medical Imaging Explorer" },
   { key: "barplot", label: "Project #2", path: "barplot/", title: "D3 Intro Barplot - Students by Country" },
-  { key: "trials", label: "Project #3", path: "trials/", title: "Why Trials Stop Early" },
+  { key: "trials", label: "Project #3", path: "trials/", title: "Why Clinical Trials Stop Early" },
   { key: "escape", label: "Project #4", path: "escape/", title: "Scales - Escape Artists" },
 ];

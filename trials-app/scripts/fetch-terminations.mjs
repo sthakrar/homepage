@@ -5,7 +5,8 @@
 // 1. Downloads every study with status TERMINATED whose completion date falls
 //    in the window below, from the ClinicalTrials.gov API (v2).
 // 2. Sorts each sponsor's "why stopped" text into one category with keyword
-//    rules (CATEGORIES below, checked in order: the first match wins).
+//    rules (classify.mjs; checked in order: the first match wins), and
+//    splits the "Other" category into themes (classifyOther).
 // 3. Writes the counts, the query and today's date to src/data/snapshot.json.
 //    With --samples it also prints a few examples per category for checking.
 import { writeFileSync } from "node:fs";
@@ -14,7 +15,7 @@ const FROM = "2020-01-01";
 const TO = "2025-12-31";
 const API = "https://clinicaltrials.gov/api/v2/studies";
 
-import { CATEGORIES, OTHER, NONE, classify } from "./classify.mjs";
+import { CATEGORIES, OTHER, NONE, classify, classifyOther, OTHER_SUBGROUPS, OTHER_VAGUE, OTHER_REST } from "./classify.mjs";
 
 async function fetchAll() {
   const studies = [];
@@ -44,11 +45,16 @@ async function fetchAll() {
 
 const studies = await fetchAll();
 const counts = {};
+const otherCounts = {};
 const samples = {};
 for (const s of studies) {
   const c = classify(s.why);
   counts[c.key] = (counts[c.key] ?? 0) + 1;
   (samples[c.key] ??= []).push(s);
+  if (c.key === "other") {
+    const g = classifyOther(s.why);
+    otherCounts[g.key] = (otherCounts[g.key] ?? 0) + 1;
+  }
 }
 
 const order = ["accrual", "business", "conduct", "covid", "external", "funding", "withdrawn", "supply", "other", "data", "none"];
@@ -62,10 +68,19 @@ const snapshot = {
     const c = all.find((x) => x.key === key);
     return { key, reason: c.reason, group: c.group, count: counts[key] ?? 0 };
   }),
+  // "Other" split into themes: biggest first, the catch-alls last
+  otherBreakdown: [
+    ...OTHER_SUBGROUPS.map((g) => ({ key: g.key, reason: g.reason, count: otherCounts[g.key] ?? 0 }))
+      .sort((a, b) => b.count - a.count),
+    { key: OTHER_VAGUE.key, reason: OTHER_VAGUE.reason, count: otherCounts[OTHER_VAGUE.key] ?? 0 },
+    { key: OTHER_REST.key, reason: OTHER_REST.reason, count: otherCounts[OTHER_REST.key] ?? 0 },
+  ],
 };
 writeFileSync(new URL("../src/data/snapshot.json", import.meta.url), JSON.stringify(snapshot, null, 2) + "\n");
 console.log(`Saved ${studies.length} trials.`);
 for (const r of snapshot.rows) console.log(`${String(r.count).padStart(6)}  ${(r.count / studies.length * 100).toFixed(1).padStart(5)}%  ${r.reason}`);
+console.log("Inside Other:");
+for (const r of snapshot.otherBreakdown) console.log(`${String(r.count).padStart(6)}        ${r.reason}`);
 
 if (process.argv.includes("--samples")) {
   // Print a few random examples per category, to check the rules by eye

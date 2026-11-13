@@ -16,7 +16,7 @@ The home page for my data visualization work with D3 and React, focused on clini
 - **[React Foundation - Medical Imaging Explorer](https://sthakrar.github.io/homepage/imaging/)** (React): 24 medical imaging techniques, from X-ray to capsule endoscopy, as a grid of cards. Each card shows what the scan is used for, its radiation dose, how long natural background radiation takes to give the same dose, and how long the scan takes. Buttons filter the grid by family: X-ray, Magnetic, Sound, Nuclear or Light. Images are from Wikimedia Commons and each card links to its image's credit page.
 - **[D3 Intro Barplot - Students by Country](https://sthakrar.github.io/homepage/barplot/)** (D3 + React): a horizontal bar chart of how many students from each country joined the first cohort of a data visualization course. D3 handles only the scales (`scaleBand` for countries, `scaleLinear` for counts) and React draws every bar, label and gridline as SVG. The chart resizes to fit the screen, and hovering a bar highlights it.
 - **[Scales - Escape Artists](https://sthakrar.github.io/homepage/escape/)** (D3 + React): a recreation of a bar chart from The Economist showing laboratory-acquired infections by disease, 1970-2021. It matches the original: red rule and tag, title and subtitle, gridlines with values along the top, names written inside each bar (or just outside when the bar is too short), and the sources and credit lines, with colours sampled from the original.
-- **[Why Trials Stop Early](https://sthakrar.github.io/homepage/trials/)** (D3 + React): a donut chart of why 13,089 clinical trials on ClinicalTrials.gov were terminated (completion dates 2020-2025), using the categories of Williams et al., PLOS ONE 2015. A script downloads the trials from the ClinicalTrials.gov API and sorts each free-text reason into a category with keyword rules (about 88% agreement with hand checks on random samples). `d3.pie` and `d3.arc` compute the slices and React draws them.
+- **[Why Clinical Trials Stop Early](https://sthakrar.github.io/homepage/trials/)** (D3 + React): a donut chart of why 13,089 clinical trials on ClinicalTrials.gov were terminated (completion dates 2020-2025), using the categories of Williams et al., PLOS ONE 2015. A script downloads the trials from the ClinicalTrials.gov API and sorts each free-text reason into a category with keyword rules (about 88% agreement with hand checks on random samples), and splits "Other" into themes. `d3.pie` and `d3.arc` compute the slices and React draws them.
 
 ### Figures in the chart
 
@@ -65,7 +65,7 @@ escape-app/       D3 + React source for Escape Artists
   src/App.jsx                    page layout: title, subtitle, chart, footer
 escape/           the built app (generated, don't edit by hand)
 
-trials-app/       D3 + React source for Why Trials Stop Early
+trials-app/       D3 + React source for Why Clinical Trials Stop Early
   scripts/fetch-terminations.mjs downloads trials and writes src/data/snapshot.json
   scripts/classify.mjs           keyword rules that sort each reason into a category
   src/data/terminations.js       snapshot, category colours and order

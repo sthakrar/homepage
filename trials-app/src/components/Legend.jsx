@@ -1,12 +1,13 @@
 // Legend.jsx - the list beside the donut: one row per reason, grouped under
 // three headings (not about the trial's data / the trial's own data / no
 // reason given). Each row shows the number of trials and their share.
+// "Other" also lists the themes inside it, indented underneath.
 // Hovering or focusing a row highlights its slice (App holds which one is
 // active).
 const fmt = (n) => n.toLocaleString("en-US");
 const pct = (share, digits = 1) => `${(share * 100).toFixed(digits)}%`;
 
-export default function Legend({ data, total, active, onActive }) {
+export default function Legend({ data, total, active, onActive, otherBreakdown }) {
   // Keep the data order, and start a new heading whenever the group changes
   const groups = [];
   data.forEach((d, i) => {
@@ -51,6 +52,24 @@ export default function Legend({ data, total, active, onActive }) {
                     <span className="count">{fmt(r.count)}</span>
                     <span className="pct">{pct(r.count / total)}</span>
                   </button>
+
+                  {/* "Other" is split into themes, listed underneath it */}
+                  {r.key === "other" && otherBreakdown && (
+                    <ul className="sub-rows" aria-label="Inside Other">
+                      {otherBreakdown.map((o) => (
+                        <li
+                          key={o.key}
+                          className={r.index === active ? "sub-row is-active" : "sub-row"}
+                          onMouseEnter={() => onActive(r.index)}
+                        >
+                          <span />
+                          <span className="reason">{o.reason}</span>
+                          <span className="count">{fmt(o.count)}</span>
+                          <span className="pct">{pct(o.count / total)}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </li>
               ))}
             </ul>

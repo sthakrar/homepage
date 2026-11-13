@@ -295,6 +295,35 @@ h1 {
   color: #8a9ab0;
 }
 
+/* Themes inside "Other": indented, smaller and quieter than the main rows */
+.sub-rows {
+  list-style: none;
+  margin: 0.1rem 0 0.35rem 1.35rem;
+  padding-left: 0.6rem;
+  border-left: 2px solid #e2e8f0;
+}
+
+.sub-row {
+  display: grid;
+  grid-template-columns: 0 1fr 3.6rem 3.6rem;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.12rem 0.35rem 0.12rem 0;
+  font-size: 0.78rem;
+  color: var(--muted);
+  border-radius: 4px;
+}
+
+.sub-row.is-active { background: #f4f7fa; }
+
+.sub-row .count,
+.sub-row .pct {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  text-align: right;
+  color: var(--muted);
+}
+
 .chart-footer {
   margin-top: 1.5rem;
   padding-top: 0.8rem;
@@ -318,6 +347,8 @@ h1 {
   .legend-row .count,
   .legend-row .pct { font-size: 0.72rem; }
   .legend-columns { padding: 0 0.2rem 0.4rem; }
+  .sub-rows { margin-left: 0.9rem; }
+  .sub-row { grid-template-columns: 0 1fr 3rem 3rem; font-size: 0.74rem; }
 }
 
 /* 6. Reduced motion */
