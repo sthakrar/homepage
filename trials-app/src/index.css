@@ -1,0 +1,297 @@
+/* =====================================================================
+   index.css - styles for the Why Trials Stop Early app.
+   Page colours, fonts and header match the homepage (../css/style.css)
+   and the other projects.
+   ===================================================================== */
+
+/* 1. Variables: copied from the homepage's :root */
+:root {
+  --bg: #eef3f8;
+  --grid-dot: #cdd8e5;
+  --surface: #ffffff;
+  --border: #d6e0eb;
+  --ink: #0f2a44;
+  --text: #22364d;
+  --muted: #5f7189;
+  --accent: #1d6fd8;
+
+  --font-heading: "Source Serif 4", Georgia, serif;
+  --font-body: "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+
+  --gutter: clamp(16px, 8vw, 120px);
+  --header-h: 64px;
+}
+
+/* 2. Base */
+*,
+*::before,
+*::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background-color: var(--bg);
+  background-image: radial-gradient(var(--grid-dot) 1px, transparent 1px);
+  background-size: 22px 22px;
+  color: var(--text);
+  font: 16px/1.6 var(--font-body);
+}
+
+h1 {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.15;
+}
+
+/* 3. Header bar: same as the homepage */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  height: var(--header-h);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--gutter);
+  background: var(--bg);   /* solid, so content doesn't show through when scrolling */
+  border-bottom: 1px solid var(--border);
+}
+
+.site-header .brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--ink);
+  border-radius: 8px;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.site-nav { display: flex; gap: 1.5rem; }
+
+.site-nav a {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.site-header a:hover,
+.site-header a:focus-visible { color: var(--accent); }
+.site-header .brand:hover,
+.site-header .brand:focus-visible { border-color: var(--accent); }
+
+/* 4. Page intro */
+.page {
+  max-width: calc(860px + 2 * var(--gutter));
+  padding: 3rem var(--gutter) 4rem;
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+}
+
+.page h1 {
+  margin-top: 0.4rem;
+  font-size: clamp(1.8rem, 6vw, 2.6rem);
+  letter-spacing: -0.01em;
+}
+
+.lede {
+  margin-top: 0.75rem;
+  max-width: 56ch;
+  color: var(--muted);
+}
+
+/* 5. The chart card: title, subtitle, donut + legend, footer */
+.chart-card {
+  margin-top: 2rem;
+  padding: 1.5rem clamp(1rem, 4vw, 2rem) 1.25rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: 0 6px 20px rgba(15, 42, 68, 0.05);
+}
+
+.chart-title {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.chart-subtitle {
+  margin-top: 0.1rem;
+  font-size: 0.95rem;
+  color: var(--text);
+}
+
+/* Donut on the left, legend on the right; stacked on narrow screens */
+.chart-body {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.5rem 2.5rem;
+  margin-top: 1.5rem;
+}
+
+.donut-box {
+  flex: 1 1 260px;
+  max-width: 332px;
+  display: flex;
+  justify-content: center;
+}
+
+.donut { display: block; overflow: visible; }
+
+.donut .slice {
+  stroke: var(--surface);
+  stroke-width: 1;
+  transition: opacity 0.2s;
+}
+
+.donut .slice.dim { opacity: 0.35; }
+
+.donut .centre-number {
+  font-family: var(--font-heading);
+  font-size: 2.1rem;
+  font-weight: 600;
+  fill: var(--ink);
+}
+
+.donut .centre-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  fill: var(--muted);
+}
+
+/* Legend: grouped rows of swatch, reason, count, percent */
+.legend {
+  flex: 1 1 300px;
+  min-width: 0;
+}
+
+.legend-group + .legend-group { margin-top: 0.9rem; }
+
+.legend-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 1px solid var(--border);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink);
+}
+
+.legend-heading span { color: var(--muted); font-weight: 400; white-space: nowrap; }
+
+.legend ul { list-style: none; }
+
+.legend-row {
+  display: grid;
+  grid-template-columns: 12px 1fr 3.4rem 3.4rem 2.6rem;
+  align-items: center;
+  gap: 0.6rem;
+  width: 100%;
+  padding: 0.3rem 0.35rem;
+  font: inherit;
+  font-size: 0.88rem;
+  text-align: left;
+  color: var(--text);
+  background: none;
+  border: 0;
+  border-radius: 6px;
+  cursor: default;
+}
+
+.legend-row:hover,
+.legend-row.is-active { background: #eef3f8; }
+
+.legend-row:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+.legend-row .swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  box-shadow: inset 0 0 0 1px rgba(15, 42, 68, 0.08);
+}
+
+.legend-row .count,
+.legend-row .pct {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  text-align: right;
+}
+
+.legend-row .count { color: var(--ink); }
+.legend-row .pct { color: var(--ink); }
+.legend-row .then {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  text-align: right;
+  color: #8a9ab0;
+}
+
+/* Column labels above the legend, lined up with the row grid */
+.legend-columns {
+  display: grid;
+  grid-template-columns: 12px 1fr 3.4rem 3.4rem 2.6rem;
+  gap: 0.6rem;
+  padding: 0 0.35rem 0.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  text-align: right;
+  color: #8a9ab0;
+}
+
+.chart-footer {
+  margin-top: 1.5rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid var(--border);
+  font-size: 0.75rem;
+  line-height: 1.5;
+  color: #8a9ab0;
+}
+
+.chart-footer p + p { margin-top: 0.2rem; }
+.chart-footer a { color: var(--accent); }
+
+/* Narrow screens: tighter number columns so reasons keep their width */
+@media (max-width: 480px) {
+  .legend-row,
+  .legend-columns {
+    grid-template-columns: 10px 1fr 2.7rem 2.7rem 2rem;
+    gap: 0.45rem;
+  }
+  .legend-row { font-size: 0.82rem; padding: 0.3rem 0.2rem; }
+  .legend-row .count,
+  .legend-row .pct { font-size: 0.72rem; }
+  .legend-row .then { font-size: 0.66rem; }
+  .legend-columns { padding: 0 0.2rem 0.4rem; }
+}
+
+/* 6. Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .donut .slice { transition: none; }
+}

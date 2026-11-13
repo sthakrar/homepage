@@ -54,9 +54,7 @@ h1 {
   align-items: center;
   justify-content: space-between;
   padding: 0 var(--gutter);
-  background: rgba(238, 243, 248, 0.85);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background: var(--bg);   /* solid, so content doesn't show through when scrolling */
   border-bottom: 1px solid var(--border);
 }
 

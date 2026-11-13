@@ -1,0 +1,78 @@
+{
+  "fetched": "2026-11-13",
+  "window": {
+    "from": "2020-01-01",
+    "to": "2025-12-31",
+    "field": "completion date"
+  },
+  "query": "ClinicalTrials.gov API v2, overallStatus = TERMINATED",
+  "total": 13089,
+  "rows": [
+    {
+      "key": "accrual",
+      "reason": "Too few patients enrolled",
+      "group": "Not about the trial's data",
+      "count": 3970
+    },
+    {
+      "key": "business",
+      "reason": "Business or strategy",
+      "group": "Not about the trial's data",
+      "count": 2064
+    },
+    {
+      "key": "conduct",
+      "reason": "Running the trial",
+      "group": "Not about the trial's data",
+      "count": 1037
+    },
+    {
+      "key": "covid",
+      "reason": "COVID-19 pandemic",
+      "group": "Not about the trial's data",
+      "count": 1613
+    },
+    {
+      "key": "external",
+      "reason": "New outside evidence",
+      "group": "Not about the trial's data",
+      "count": 112
+    },
+    {
+      "key": "funding",
+      "reason": "Funding",
+      "group": "Not about the trial's data",
+      "count": 1023
+    },
+    {
+      "key": "withdrawn",
+      "reason": "Product withdrawn",
+      "group": "Not about the trial's data",
+      "count": 19
+    },
+    {
+      "key": "supply",
+      "reason": "Drug supply",
+      "group": "Not about the trial's data",
+      "count": 132
+    },
+    {
+      "key": "other",
+      "reason": "Other",
+      "group": "Not about the trial's data",
+      "count": 1619
+    },
+    {
+      "key": "data",
+      "reason": "Benefit or harm seen",
+      "group": "The trial's own data",
+      "count": 1321
+    },
+    {
+      "key": "none",
+      "reason": "No reason given",
+      "group": "No reason given",
+      "count": 179
+    }
+  ]
+}

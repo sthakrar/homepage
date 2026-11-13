@@ -80,9 +80,7 @@ h2 {
   align-items: center;   /* ...centred vertically */
   justify-content: space-between;   /* monogram left, links right */
   padding: 0 var(--gutter);
-  background: rgba(238, 243, 248, 0.85);   /* slightly see-through */
-  backdrop-filter: blur(10px);             /* blurs whatever is behind it */
-  -webkit-backdrop-filter: blur(10px);     /* same, for Safari */
+  background: var(--bg);                   /* solid, so content doesn't show through when scrolling */
   border-bottom: 1px solid var(--border);
 }
 
