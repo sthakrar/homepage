@@ -15,6 +15,7 @@ The home page for my data visualization work with D3 and React, focused on clini
 
 - **[Medical Imaging Explorer](https://sthakrar.github.io/homepage/imaging/)** (React): 24 medical imaging techniques, from X-ray to capsule endoscopy, as a grid of cards. Each card shows what the scan is used for, its radiation dose, how long natural background radiation takes to give the same dose, and how long the scan takes. Buttons filter the grid by family: X-ray, Magnetic, Sound, Nuclear or Light. Images are from Wikimedia Commons and each card links to its image's credit page.
 - **[Students by Country](https://sthakrar.github.io/homepage/barplot/)** (D3 + React): a horizontal bar chart of how many students from each country joined the first cohort of a data visualization course. D3 handles only the scales (`scaleBand` for countries, `scaleLinear` for counts) and React draws every bar, label and gridline as SVG. The chart resizes to fit the screen, and hovering a bar highlights it.
+- **[Escape Artists](https://sthakrar.github.io/homepage/escape/)** (D3 + React): a recreation of a bar chart from The Economist showing laboratory-acquired infections by disease, 1970-2021. It follows the original's structure: title, subtitle, gridlines with values along the top, names written inside each bar (or just outside when the bar is too short), and a sources footer. Colours and fonts match this site.
 
 ### Figures in the chart
 
@@ -33,7 +34,7 @@ All data is simulated and generated fresh on every cycle, so no two rounds look 
 
 The home page is plain HTML, CSS and JavaScript with no libraries and no build step. The chart is drawn directly as SVG.
 
-Each project is its own Vite app. Its source lives in a `*-app/` folder, and building it writes static files to a matching folder (`imaging/`, `barplot/`) that GitHub Pages serves like the rest of the repo.
+Each project is its own Vite app. Its source lives in a `*-app/` folder, and building it writes static files to a matching folder (`imaging/`, `barplot/`, `escape/`) that GitHub Pages serves like the rest of the repo.
 
 ```
 index.html        page content
@@ -55,6 +56,12 @@ barplot-app/      D3 + React source for Students by Country
   src/App.jsx                    page layout; measures the width for the chart
   src/index.css                  styles (same colours and fonts as the home page)
 barplot/          the built app (generated, don't edit by hand)
+
+escape-app/       D3 + React source for Escape Artists
+  src/data/infections.js         infections per disease
+  src/components/Barplot.jsx     the chart: D3 scales, React SVG, inline labels
+  src/App.jsx                    page layout: title, subtitle, chart, footer
+escape/           the built app (generated, don't edit by hand)
 ```
 
 ## Run it locally
@@ -72,7 +79,7 @@ open index.html
 You need Node.js. After changing anything in a `*-app/` folder, rebuild it and commit its built folder. For example:
 
 ```bash
-cd imaging-app   # or barplot-app
+cd imaging-app   # or barplot-app, escape-app
 npm install      # first time only
 npm run dev      # live preview while editing
 npm run build    # writes the finished app to ../imaging (or ../barplot)
