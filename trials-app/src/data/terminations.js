@@ -5,9 +5,9 @@
 // date in the window, its "why stopped" text sorted into one category by the
 // keyword rules in scripts/classify.mjs.
 //
-// Comparison: Williams RJ, Tse T, DiPiazza K, Zarin DA. PLOS ONE
-// 2015;10(5):e0127242, Table 1 (905 terminated trials with results, to 2013).
-// Those categories were assigned by hand; COVID-19 did not exist then.
+// Background (mentioned in the footer): Williams RJ, Tse T, DiPiazza K,
+// Zarin DA. PLOS ONE 2015;10(5):e0127242, which hand-sorted 905 earlier
+// terminated trials into the same categories (except COVID-19).
 import snapshot from "./snapshot.json";
 
 export { snapshot };
@@ -27,13 +27,6 @@ export const SOURCES = {
   },
 };
 
-// The 2015 study's counts per category (Table 1), out of 905
-const STUDY_2015 = {
-  accrual: 350, business: 77, conduct: 58, external: 51, funding: 34,
-  withdrawn: 18, supply: 17, other: 14, data: 193, none: 93,
-};
-export const TOTAL_2015 = 905;
-
 // What each category covers, shown when a legend row is hovered
 const DETAIL = {
   accrual: "Too few participants enrolled, slow recruitment, not feasible to enroll",
@@ -49,9 +42,22 @@ const DETAIL = {
   none: "No reason given",
 };
 
-// Colours: blues for "not about the trial's data" (darkest = biggest),
-// dark ink for the trial's own data, grey for no reason given
-const BLUES = ["#1d6fd8", "#3f84df", "#5c97e5", "#78a9ea", "#93bbef", "#abcaf2", "#c0d8f5", "#d2e3f8", "#e2edfb"];
+// Colours: a distinct hue for each sizeable reason, so slices are easy to
+// tell apart; the small ones and "Other" in soft greys. The trial's own data
+// is red (benefit or harm), and "no reason" a slate grey.
+const COLORS = {
+  accrual: "#1d6fd8",    // blue
+  business: "#e07b39",   // orange
+  covid: "#8e5cc9",      // purple
+  conduct: "#1a9e8f",    // teal
+  funding: "#e0b13a",    // amber
+  supply: "#c46aa0",     // pink
+  external: "#6aa84f",   // green
+  withdrawn: "#9fb3c8",  // grey-blue
+  other: "#cfd6df",      // light grey
+  data: "#d64545",       // red
+  none: "#7d8a9c",       // slate
+};
 
 // Order: the non-data reasons by size (with "Other" last), then data-driven,
 // then no reason, so related slices sit together around the donut
@@ -65,10 +71,8 @@ const ordered = [
   snapshot.rows.find((r) => r.key === "none"),
 ];
 
-export const data = ordered.map((r, i) => ({
+export const data = ordered.map((r) => ({
   ...r,
   detail: DETAIL[r.key],
-  color: r.key === "data" ? "#0f2a44" : r.key === "none" ? "#a9b6c6" : BLUES[i],
-  // Share in the 2015 study (null for COVID-19, which had no 2015 category)
-  share2015: STUDY_2015[r.key] === undefined ? null : STUDY_2015[r.key] / TOTAL_2015,
+  color: COLORS[r.key],
 }));

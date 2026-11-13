@@ -8,6 +8,8 @@ import react from "@vitejs/plugin-react";
 
 export default defineConfig({
   plugins: [react()],
+  // Let the dev server read ../shared (the site's nav list)
+  server: { fs: { allow: [".."] } },
   base: "/homepage/imaging/",
   build: {
     outDir: "../imaging",

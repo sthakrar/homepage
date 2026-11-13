@@ -43,20 +43,6 @@ export default function ImagingCard({ scan }) {
             <dt>Time</dt>
             <dd>{formatTime(scan.minutes)}</dd>
           </div>
-          <div>
-            <dt>First used</dt>
-            <dd>
-              {/* The year links to its source */}
-              <a
-                className="year-link"
-                href={scan.firstUsedSource}
-                target="_blank"
-                rel="noopener"
-              >
-                {scan.firstUsed}
-              </a>
-            </dd>
-          </div>
         </dl>
 
         {/* Credit: author (links to the image's Commons page) and licence */}

@@ -49,16 +49,17 @@ h1 {
   position: sticky;
   top: 0;
   z-index: 10;
-  height: var(--header-h);
+  min-height: var(--header-h);   /* grows if the nav wraps onto two lines */
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 var(--gutter);
+  padding: 8px var(--gutter);
   background: var(--bg);   /* solid, so content doesn't show through when scrolling */
   border-bottom: 1px solid var(--border);
 }
 
 .site-header .brand {
+  flex-shrink: 0;           /* keep the monogram square when the nav is long */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -74,16 +75,51 @@ h1 {
   text-decoration: none;
 }
 
-.site-nav { display: flex; gap: 1.5rem; }
+/* Nav: one link per page. On wide screens it wraps onto a second line if
+   the names don't fit; on narrow screens it scrolls sideways instead
+   (App scrolls the current page's link into view). */
+.site-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.35rem 1.4rem;
+  min-width: 0;
+  margin-left: 1.5rem;
+}
+
+@media (max-width: 900px) {
+  .site-nav {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    overflow-x: auto;
+    scrollbar-width: none;          /* hide the scrollbar (Firefox) */
+  }
+}
+
+.site-nav::-webkit-scrollbar { display: none; }   /* ...and in Chrome/Safari */
 
 .site-nav a {
   font-family: var(--font-mono);
-  font-size: 0.8rem;
+  font-size: 0.72rem;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.08em;
   color: var(--muted);
   text-decoration: none;
-  transition: color 0.2s;
+  white-space: nowrap;
+  padding: 4px 0;
+  border-bottom: 2px solid transparent;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+/* The page you're on: dark text, underlined */
+.site-nav a[aria-current="page"] {
+  color: var(--ink);
+  border-bottom-color: var(--ink);
+}
+
+@media (max-width: 600px) {
+  .site-nav { gap: 1.1rem; margin-left: 1rem; }
+  .site-nav a { font-size: 0.68rem; }
 }
 
 .site-header a:hover,
@@ -137,10 +173,11 @@ h1 {
   box-shadow: 0 6px 20px rgba(15, 42, 68, 0.05);
 }
 
-/* Thin red line with a short, thicker red tag at its left end */
+/* Red line (2px, so it stays visible at any zoom) with a short, thicker
+   red tag at its left end */
 .chart-rule {
   position: relative;
-  height: 1px;
+  height: 2px;
   background: var(--econ-red);
 }
 

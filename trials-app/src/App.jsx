@@ -6,6 +6,10 @@ import { sum } from "d3";
 import { data, snapshot, SOURCES } from "./data/terminations.js";
 import Donut from "./components/Donut.jsx";
 import Legend from "./components/Legend.jsx";
+import { PAGES } from "../../shared/pages.js";
+
+// Which page this is, for the nav bar
+const PAGE = "trials";
 
 const total = sum(data, (d) => d.count);
 const accrual = data.find((d) => d.key === "accrual");
@@ -20,6 +24,13 @@ const fetchedOn = new Date(snapshot.fetched).toLocaleDateString("en-GB", {
 });
 
 export default function App() {
+  // On narrow screens the nav scrolls sideways: bring this page's link into view
+  useEffect(() => {
+    document
+      .querySelector('.site-nav [aria-current="page"]')
+      ?.scrollIntoView({ block: "nearest", inline: "center" });
+  }, []);
+
   const [active, setActive] = useState(null);
 
   // Size the donut to its box: up to 320px, smaller on narrow screens
@@ -38,8 +49,18 @@ export default function App() {
     <>
       <header className="site-header">
         <a className="brand" href="../" aria-label="Sanchit Thakrar, home">ST</a>
-        <nav className="site-nav">
-          <a href="../#projects">Projects</a>
+        {/* Links to the home page and every project; this page is underlined */}
+        <nav className="site-nav" aria-label="Site">
+          {PAGES.map((p) => (
+            <a
+              key={p.key}
+              href={`../${p.path}`}
+              title={p.title}
+              aria-current={p.key === PAGE ? "page" : undefined}
+            >
+              {p.label}
+            </a>
+          ))}
         </nav>
       </header>
 
@@ -48,14 +69,14 @@ export default function App() {
         <h1>Why Trials Stop Early</h1>
         <p className="lede">
           Why {fmt(total)} clinical trials on ClinicalTrials.gov stopped early
-          in {fromYear}-{toYear}, compared with a 2015 study.
+          in {fromYear}-{toYear}.
         </p>
 
         <figure className="chart-card">
           <figcaption>
             <p className="chart-title">
-              Too few patients is still the top reason: {pct(accrual.count / total)} of
-              trials, down from {pct(accrual.share2015)} in 2015
+              Too few patients enrolled is the top reason, behind{" "}
+              {pct(accrual.count / total)} of trials
             </p>
             <p className="chart-subtitle">
               Reasons sponsors gave for {fmt(total)} trials marked terminated,
@@ -93,12 +114,12 @@ export default function App() {
               88% of the time, and most misses fall into "Other".
             </p>
             <p>
-              2015 column: share of 905 trials (data to 2013) in{" "}
+              Categories follow{" "}
               <a href={SOURCES.study2015.url} target="_blank" rel="noopener">
                 {SOURCES.study2015.label}
               </a>
-              , sorted by hand. "No reason given" fell because ClinicalTrials.gov
-              now requires a reason. Hover a slice or a row for details.
+              , which sorted 905 earlier trials by hand and also found low
+              enrollment the top reason. Hover a slice or a row for details.
             </p>
           </footer>
         </figure>

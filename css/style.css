@@ -85,6 +85,7 @@ h2 {
 }
 
 .site-header .brand {
+  flex-shrink: 0;           /* keep the monogram square when the nav is long */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -100,10 +101,17 @@ h2 {
   text-decoration: none;   /* no underline on the link */
 }
 
+/* Nav: one link per page, scrolls sideways on narrow screens */
 .site-nav {
   display: flex;
   gap: 1.5rem;
+  min-width: 0;
+  margin-left: 1.5rem;
+  overflow-x: auto;
+  scrollbar-width: none;            /* hide the scrollbar (Firefox) */
 }
+
+.site-nav::-webkit-scrollbar { display: none; }   /* ...and in Chrome/Safari */
 
 .site-nav a {
   font-family: var(--font-mono);
@@ -112,7 +120,21 @@ h2 {
   letter-spacing: 0.1em;
   color: var(--muted);
   text-decoration: none;
-  transition: color 0.2s;
+  white-space: nowrap;
+  padding: 4px 0;
+  border-bottom: 2px solid transparent;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+/* The page you're on: dark text, underlined */
+.site-nav a[aria-current="page"] {
+  color: var(--ink);
+  border-bottom-color: var(--ink);
+}
+
+@media (max-width: 600px) {
+  .site-nav { gap: 1.1rem; margin-left: 1rem; }
+  .site-nav a { font-size: 0.72rem; }
 }
 
 .site-header a:hover,

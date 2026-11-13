@@ -60,10 +60,6 @@ export default function SourcesInfo() {
           a year of natural radiation. Scan times (~) are rough typical values.
         </p>
         <p>
-          First used is the year each technique was first used to image a
-          living person; click a year on a card to see its source.
-        </p>
-        <p>
           Images are from Wikimedia Commons, credited on each card, and shown
           in greyscale and cropped (some inverted). Hover a card for the
           original colours.
