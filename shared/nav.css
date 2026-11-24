@@ -85,24 +85,38 @@
 
 .menu-num {
   flex-shrink: 0;
-  min-width: 1.6rem;
+  min-width: 1.9rem;
+  padding: 0.1rem 0;
   font-family: var(--font-mono);
   font-size: 0.72rem;
+  text-align: center;
   color: var(--muted);
+  border-radius: 999px;
 }
 
 .menu-title {
+  flex: 1;
   font-size: 0.88rem;
   line-height: 1.35;
 }
 
-/* The page you're on: accent number, bold title, a bar on the left */
-.menu-panel a[aria-current="page"] {
-  background: var(--bg);
-  box-shadow: inset 2px 0 0 var(--accent);
+/* The page you're on: number in a filled accent pill, bold title, and a
+   check mark on the right. (Grey background is kept for hover only.) */
+.menu-panel a[aria-current="page"] .menu-num {
+  color: #ffffff;
+  background: var(--accent);
 }
-.menu-panel a[aria-current="page"] .menu-num { color: var(--accent); }
 .menu-panel a[aria-current="page"] .menu-title { font-weight: 600; color: var(--ink); }
+
+.menu-check {
+  flex-shrink: 0;
+  align-self: center;
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
 
 .menu-panel .menu-home {
   margin-top: 0.3rem;
