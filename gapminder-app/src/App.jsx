@@ -4,7 +4,7 @@
 import { useEffect, useRef, useState } from "react";
 import { sum, format } from "d3";
 import { data, CONTINENTS, SOURCE } from "./data/gapminder.js";
-import BubblePlot, { makeRadius, THRESHOLD } from "./components/BubblePlot.jsx";
+import BubblePlot, { makeRadius, THRESHOLD, dollars, people } from "./components/BubblePlot.jsx";
 import ProjectsMenu from "../../shared/ProjectsMenu.jsx";
 
 // Which page this is, for the Projects menu
@@ -24,8 +24,22 @@ const SNAPS = [
 // Same margin as the plot's left/right, so the size legend matches its bubbles
 const PLOT_SIDES = 48 + 18;
 
+// Countries grouped by continent, A-Z, for the filter
+const BY_CONTINENT = CONTINENTS.map((c) => ({
+  continent: c.key,
+  countries: data
+    .filter((d) => d.continent === c.key)
+    .map((d) => d.country)
+    .sort(),
+}));
+
+// Rank of a country (1 = highest) for one field
+const rankOf = (country, field) =>
+  [...data].sort((a, b) => b[field] - a[field]).findIndex((d) => d.country === country) + 1;
+
 export default function App() {
   const [frac, setFrac] = useState(0.5);
+  const [selected, setSelected] = useState(null);
 
   // Measure the chart box so the SVG fills its width
   const boxRef = useRef(null);
@@ -91,7 +105,25 @@ export default function App() {
           </figcaption>
 
           <div className="chart-controls">
-            <span className="hint">Drag the line to compare</span>
+            <div className="controls-left">
+              <label className="country-filter">
+                <span className="legend-label">Find a country</span>
+                <select
+                  value={selected ?? ""}
+                  onChange={(e) => setSelected(e.target.value || null)}
+                >
+                  <option value="">All countries</option>
+                  {BY_CONTINENT.map((g) => (
+                    <optgroup key={g.continent} label={g.continent}>
+                      {g.countries.map((c) => (
+                        <option key={c} value={c}>{c}</option>
+                      ))}
+                    </optgroup>
+                  ))}
+                </select>
+              </label>
+              <span className="hint">Drag the line to compare · hover a bubble for details</span>
+            </div>
             <div className="segmented" role="group" aria-label="Snap the divider">
               {SNAPS.map((s) => (
                 <button
@@ -107,8 +139,18 @@ export default function App() {
           </div>
 
           <div className="chart-box" ref={boxRef}>
-            {width > 0 && <BubblePlot width={width} frac={frac} onFrac={moveTo} />}
+            {width > 0 && (
+              <BubblePlot
+                width={width}
+                frac={frac}
+                onFrac={moveTo}
+                selected={selected}
+                onSelect={setSelected}
+              />
+            )}
           </div>
+
+          {selected && <CountryCard name={selected} onClear={() => setSelected(null)} />}
 
           <div className="legends">
             <div>
@@ -143,6 +185,52 @@ export default function App() {
         </figure>
       </main>
     </>
+  );
+}
+
+// Where the selected country falls: its numbers, its rank among all 142,
+// and how far across each kind of axis it sits
+function CountryCard({ name, onClear }) {
+  const d = data.find((c) => c.country === name);
+  const color = CONTINENTS.find((c) => c.key === d.continent).color;
+  const n = data.length;
+  const logPos = Math.log(d.gdpPercap / 200) / Math.log(60000 / 200);
+  const linPos = d.gdpPercap / 52000;
+  const stats = [
+    { label: "Life expectancy", value: `${d.lifeExp.toFixed(1)} yrs`, rank: rankOf(name, "lifeExp") },
+    { label: "GDP per capita", value: dollars(d.gdpPercap), rank: rankOf(name, "gdpPercap") },
+    { label: "Population", value: people(d.pop), rank: rankOf(name, "pop") },
+  ];
+
+  return (
+    <section className="country-card" aria-live="polite">
+      <div className="country-card-head">
+        <p className="country-card-name">
+          <span className="swatch" style={{ background: color }} />
+          {d.country}
+          <span className="country-card-continent">{d.continent}</span>
+        </p>
+        <button type="button" className="clear-button" onClick={onClear}>
+          Clear ✕
+        </button>
+      </div>
+      <dl className="country-stats">
+        {stats.map((s) => (
+          <div key={s.label}>
+            <dt>{s.label}</dt>
+            <dd>
+              <strong>{s.value}</strong>
+              <span>#{s.rank} of {n}</span>
+            </dd>
+          </div>
+        ))}
+      </dl>
+      <p className="country-card-note">
+        On the GDP axis it sits <strong>{Math.round(logPos * 100)}%</strong> of the way
+        across on a log scale, but only <strong>{Math.round(linPos * 100)}%</strong> on a
+        linear one.
+      </p>
+    </section>
   );
 }
 
