@@ -47,7 +47,7 @@ const LABELS = [
 export function makeRadius(boundsW) {
   return scaleSqrt()
     .domain([0, max(data, (d) => d.pop)])
-    .range([0, Math.max(16, Math.min(40, boundsW * 0.045))]);
+    .range([0, Math.max(16, Math.min(52, boundsW * 0.045))]);
 }
 
 export default function BubblePlot({ width, frac, onFrac }) {
@@ -56,7 +56,7 @@ export default function BubblePlot({ width, frac, onFrac }) {
   const [dragging, setDragging] = useState(false);
 
   const boundsW = width - MARGIN.left - MARGIN.right;
-  const boundsH = Math.round(Math.min(500, Math.max(300, boundsW * 0.6)));
+  const boundsH = Math.round(Math.min(720, Math.max(300, boundsW * 0.56)));
   const compact = boundsW < 520;
 
   const { xLog, xLin, y, r } = useMemo(

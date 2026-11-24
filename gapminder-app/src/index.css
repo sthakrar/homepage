@@ -80,8 +80,10 @@ h1 {
 .site-header .brand:focus-visible { border-color: var(--accent); }
 
 /* 4. Page intro */
+/* Wider than the other projects: the chart uses the full width of the
+   screen (up to 1600px) so the two scales have room to breathe */
 .page {
-  max-width: calc(860px + 2 * var(--gutter));
+  max-width: calc(1600px + 2 * var(--gutter));
   padding: 3rem var(--gutter) 4rem;
 }
 
