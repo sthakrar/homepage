@@ -14,4 +14,5 @@ export const PAGES = [
   { key: "trials", label: "Project #3", path: "trials/", title: "Why Clinical Trials Stop Early" },
   { key: "escape", label: "Project #4", path: "escape/", title: "Scales - Escape Artists" },
   { key: "gapminder", label: "Project #5", path: "gapminder/", title: "Axes - Wealth & Health, Log vs Linear" },
+  { key: "energy", label: "Project #6", path: "energy/", title: "Responsive - Sixty Years of World Energy" },
 ];
