@@ -1,0 +1,345 @@
+/* =====================================================================
+   index.css - styles for the Gapminder app.
+   Page colours, fonts and header match the homepage (../css/style.css)
+   and the other projects.
+   ===================================================================== */
+
+/* 1. Variables: copied from the homepage's :root */
+:root {
+  --bg: #eef3f8;
+  --grid-dot: #cdd8e5;
+  --surface: #ffffff;
+  --border: #d6e0eb;
+  --ink: #0f2a44;
+  --text: #22364d;
+  --muted: #5f7189;
+  --accent: #1d6fd8;
+
+  --font-heading: "Source Serif 4", Georgia, serif;
+  --font-body: "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+
+  --gutter: clamp(16px, 8vw, 120px);
+  --header-h: 64px;
+}
+
+/* 2. Base */
+*,
+*::before,
+*::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background-color: var(--bg);
+  background-image: radial-gradient(var(--grid-dot) 1px, transparent 1px);
+  background-size: 22px 22px;
+  color: var(--text);
+  font: 16px/1.6 var(--font-body);
+}
+
+h1 {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.15;
+}
+
+/* 3. Header bar: same as the homepage */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  min-height: var(--header-h);   /* grows if the nav wraps onto two lines */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px var(--gutter);
+  background: var(--bg);   /* solid, so content doesn't show through when scrolling */
+  border-bottom: 1px solid var(--border);
+}
+
+.site-header .brand {
+  flex-shrink: 0;           /* keep the monogram square when the nav is long */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--ink);
+  border-radius: 8px;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.site-header a:hover,
+.site-header a:focus-visible { color: var(--accent); }
+.site-header .brand:hover,
+.site-header .brand:focus-visible { border-color: var(--accent); }
+
+/* 4. Page intro */
+.page {
+  max-width: calc(860px + 2 * var(--gutter));
+  padding: 3rem var(--gutter) 4rem;
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+}
+
+.page h1 {
+  margin-top: 0.4rem;
+  font-size: clamp(1.8rem, 6vw, 2.6rem);
+  letter-spacing: -0.01em;
+}
+
+.lede {
+  margin-top: 0.75rem;
+  max-width: 56ch;
+  color: var(--muted);
+}
+
+/* 5. The chart card: title, subtitle, controls, chart, legend, footer */
+.chart-card {
+  margin-top: 2rem;
+  padding: 1.5rem clamp(1rem, 4vw, 2rem) 1.25rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: 0 6px 20px rgba(15, 42, 68, 0.05);
+}
+
+.chart-title {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.chart-subtitle {
+  margin-top: 0.1rem;
+  font-size: 0.95rem;
+  color: var(--text);
+}
+
+.chart-footer {
+  margin-top: 1.5rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid var(--border);
+  font-size: 0.75rem;
+  line-height: 1.5;
+  color: #8a9ab0;
+}
+
+.chart-footer p + p { margin-top: 0.2rem; }
+.chart-footer a { color: var(--accent); }
+
+/* 6. Scale controls: three buttons that snap the divider */
+.chart-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem 1rem;
+  margin-top: 1.25rem;
+}
+
+.hint {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
+.segmented {
+  display: inline-flex;
+  padding: 3px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+}
+
+.segmented button {
+  padding: 0.3rem 0.85rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  background: none;
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.segmented button:hover { color: var(--ink); }
+.segmented button[aria-pressed="true"] {
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: 0 1px 3px rgba(15, 42, 68, 0.12);
+}
+.segmented button:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+/* 7. The bubble plot */
+.chart-box { margin-top: 0.75rem; }
+
+.bubble-plot {
+  display: block;
+  overflow: visible;
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: ew-resize;          /* drag anywhere on the chart */
+  touch-action: pan-y;        /* vertical swipes still scroll the page */
+}
+
+.bubble-plot text { font-family: var(--font-body); }
+
+.bubble-plot .grid line { stroke: #e3e9f0; }
+.bubble-plot .grid .baseline { stroke: #b9c6d4; }
+
+.bubble-plot .tick {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  fill: var(--muted);
+}
+
+.bubble-plot .axis-title {
+  font-size: 12px;
+  font-weight: 500;
+  fill: var(--text);
+}
+
+.bubble-plot .bubble {
+  stroke: #ffffff;
+  stroke-width: 0.8;
+  fill-opacity: 0.82;
+}
+
+.bubble-plot .country-label {
+  font-size: 11px;
+  font-weight: 600;
+  fill: var(--ink);
+  paint-order: stroke;
+  stroke: #ffffff;
+  stroke-width: 3px;
+  stroke-linejoin: round;
+}
+
+/* The $0-$10k band and its note */
+.bubble-plot .band { fill: rgba(29, 111, 216, 0.07); }
+.bubble-plot .band-edge { stroke: var(--accent); stroke-dasharray: 3 3; opacity: 0.6; }
+
+.bubble-plot .band-note {
+  font-size: 11px;
+  fill: var(--accent);
+}
+.bubble-plot .band-note .strong { font-weight: 600; }
+
+/* Scale tags at the top, either side of the divider */
+.bubble-plot .scale-tag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  fill: var(--ink);
+}
+
+/* The divider: line and handle */
+.bubble-plot .divider line {
+  stroke: var(--ink);
+  stroke-width: 1.5;
+}
+
+.bubble-plot .divider .handle {
+  cursor: ew-resize;
+  touch-action: none;
+  outline: none;
+}
+
+.bubble-plot .divider .handle circle {
+  fill: var(--ink);
+  stroke: #ffffff;
+  stroke-width: 2;
+  transition: fill 0.2s;
+}
+
+.bubble-plot .divider .handle path { fill: #ffffff; }
+.bubble-plot .divider .handle:hover circle,
+.bubble-plot.is-dragging .divider .handle circle { fill: var(--accent); }
+.bubble-plot .divider .handle:focus-visible circle {
+  fill: var(--accent);
+  stroke: var(--accent);
+  stroke-opacity: 0.35;
+  stroke-width: 6;
+}
+
+/* 8. Legends: continents and bubble sizes */
+.legends {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.8rem 2rem;
+  margin-top: 0.75rem;
+}
+
+.legend-label {
+  display: block;
+  margin-bottom: 0.3rem;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
+.continent-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem 1rem;
+  list-style: none;
+  font-size: 0.85rem;
+  color: var(--text);
+}
+
+.continent-legend li { display: flex; align-items: center; gap: 0.4rem; }
+
+.continent-legend .swatch {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  opacity: 0.85;
+}
+
+.size-legend svg { display: block; overflow: visible; }
+.size-legend circle { fill: none; stroke: #8a9ab0; }
+.size-legend polyline { fill: none; stroke: #b9c6d4; stroke-dasharray: 2 2; }
+.size-legend text {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  fill: var(--muted);
+}
+
+/* Text for screen readers only */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* 9. Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .segmented button,
+  .bubble-plot .divider .handle circle { transition: none; }
+}

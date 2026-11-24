@@ -1,0 +1,125 @@
+/* =====================================================================
+   nav.css - the "Projects" dropdown (ProjectsMenu.jsx) shared by every
+   project page. It uses the colour and font variables each app defines
+   in its own :root.
+   ===================================================================== */
+
+.site-menu {
+  position: relative;
+  margin-left: 1.5rem;
+}
+
+/* The button: same mono caps as the old nav links */
+.menu-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.45rem 0.8rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.menu-button:hover,
+.menu-button[aria-expanded="true"] {
+  border-color: var(--ink);
+}
+
+.menu-button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.menu-button .chevron {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform 0.2s;
+}
+
+.menu-button[aria-expanded="true"] .chevron { transform: rotate(180deg); }
+
+/* The panel: a card under the button, lined up with its right edge */
+.menu-panel {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 20;
+  width: min(320px, calc(100vw - 32px));
+  padding: 0.4rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 12px 32px rgba(15, 42, 68, 0.14);
+}
+
+.menu-panel[hidden] { display: none; }
+
+.menu-panel ul { list-style: none; }
+
+.menu-panel a {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  padding: 0.55rem 0.7rem;
+  border-radius: 8px;
+  text-decoration: none;
+  color: var(--text);
+}
+
+.menu-panel a:hover,
+.menu-panel a:focus-visible {
+  background: var(--bg);
+  outline: none;
+}
+
+.menu-num {
+  flex-shrink: 0;
+  min-width: 1.6rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+
+.menu-title {
+  font-size: 0.88rem;
+  line-height: 1.35;
+}
+
+/* The page you're on: accent number, bold title, a bar on the left */
+.menu-panel a[aria-current="page"] {
+  background: var(--bg);
+  box-shadow: inset 2px 0 0 var(--accent);
+}
+.menu-panel a[aria-current="page"] .menu-num { color: var(--accent); }
+.menu-panel a[aria-current="page"] .menu-title { font-weight: 600; color: var(--ink); }
+
+.menu-panel .menu-home {
+  margin-top: 0.3rem;
+  padding-top: 0.6rem;
+  border-top: 1px solid var(--border);
+  border-radius: 0 0 8px 8px;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
+.menu-panel .menu-home:hover,
+.menu-panel .menu-home:focus-visible { color: var(--accent); }
+
+@media (prefers-reduced-motion: reduce) {
+  .menu-button,
+  .menu-button .chevron { transition: none; }
+}

@@ -17,6 +17,7 @@ The home page for my data visualization work with D3 and React, focused on clini
 - **[D3 Intro Barplot - Students by Country](https://sthakrar.github.io/homepage/barplot/)** (D3 + React): a horizontal bar chart of how many students from each country joined the first cohort of a data visualization course. D3 handles only the scales (`scaleBand` for countries, `scaleLinear` for counts) and React draws every bar, label and gridline as SVG. The chart resizes to fit the screen, and hovering a bar highlights it.
 - **[Scales - Escape Artists](https://sthakrar.github.io/homepage/escape/)** (D3 + React): a recreation of a bar chart from The Economist showing laboratory-acquired infections by disease, 1970-2021. It matches the original: red rule and tag, title and subtitle, gridlines with values along the top, names written inside each bar (or just outside when the bar is too short), and the sources and credit lines, with colours sampled from the original.
 - **[Why Clinical Trials Stop Early](https://sthakrar.github.io/homepage/trials/)** (D3 + React): a donut chart of why 13,089 clinical trials on ClinicalTrials.gov were terminated (completion dates 2020-2025), using the categories of Williams et al., PLOS ONE 2015. A script downloads the trials from the ClinicalTrials.gov API and sorts each free-text reason into a category with keyword rules (about 88% agreement with hand checks on random samples), and splits "Other" into themes. `d3.pie` and `d3.arc` compute the slices and React draws them.
+- **[Axes - Wealth & Health, Log vs Linear](https://sthakrar.github.io/homepage/gapminder/)** (D3 + React): a bubble plot of life expectancy against GDP per capita for 142 countries in 2007 (Gapminder data), with colour for continent and bubble area for population. A vertical line splits the chart: left of it the GDP axis is log, right of it linear. Drag it (mouse, touch or arrow keys), or use the Log / Split / Linear buttons, to see how a linear axis squeezes the 88 countries under $10,000 into a fifth of the width while a log axis spreads them over two thirds. The chart is drawn twice, once per scale, and each copy is clipped to its side of the line. Reusable `AxisBottom` and `AxisLeft` components draw the gridlines and ticks.
 
 ### Figures in the chart
 
@@ -35,7 +36,7 @@ All data is simulated and generated fresh on every cycle, so no two rounds look 
 
 The home page is plain HTML, CSS and JavaScript with no libraries and no build step. The chart is drawn directly as SVG.
 
-Each project is its own Vite app. Its source lives in a `*-app/` folder, and building it writes static files to a matching folder (`imaging/`, `barplot/`, `escape/`, `trials/`) that GitHub Pages serves like the rest of the repo.
+Each project is its own Vite app. Its source lives in a `*-app/` folder, and building it writes static files to a matching folder (`imaging/`, `barplot/`, `escape/`, `trials/`, `gapminder/`) that GitHub Pages serves like the rest of the repo.
 
 ```
 index.html        page content
@@ -72,6 +73,13 @@ trials-app/       D3 + React source for Why Clinical Trials Stop Early
   src/components/Donut.jsx       the donut: d3.pie + d3.arc, React SVG
   src/components/Legend.jsx      grouped legend; hover or focus highlights a slice
 trials/           the built app (generated, don't edit by hand)
+
+gapminder-app/    D3 + React source for Wealth & Health, Log vs Linear
+  src/data/gapminder.js          142 countries in 2007, continent colours
+  src/components/BubblePlot.jsx  the chart: both scales, clipping, the draggable divider
+  src/components/Axes.jsx        reusable AxisBottom and AxisLeft
+  src/App.jsx                    page layout, snap buttons, legends
+gapminder/        the built app (generated, don't edit by hand)
 ```
 
 ## Run it locally
@@ -89,7 +97,7 @@ open index.html
 You need Node.js. After changing anything in a `*-app/` folder, rebuild it and commit its built folder. For example:
 
 ```bash
-cd imaging-app   # or barplot-app, escape-app, trials-app
+cd imaging-app   # or barplot-app, escape-app, trials-app, gapminder-app
 npm install      # first time only
 npm run dev      # live preview while editing
 npm run build    # writes the finished app to ../imaging (or ../barplot)

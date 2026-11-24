@@ -8,8 +8,10 @@ import react from "@vitejs/plugin-react";
 
 export default defineConfig({
   plugins: [react()],
-  // Let the dev server read ../shared (the site's nav list)
+  // Let the dev server read ../shared (the site's nav list and Projects menu)
   server: { fs: { allow: [".."] } },
+  // ../shared/ProjectsMenu.jsx imports react: resolve it from this app
+  resolve: { dedupe: ["react", "react-dom"] },
   base: "/homepage/barplot/",
   build: {
     outDir: "../barplot",

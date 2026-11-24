@@ -75,53 +75,6 @@ h1 {
   text-decoration: none;
 }
 
-/* Nav: one link per page. On wide screens it wraps onto a second line if
-   the names don't fit; on narrow screens it scrolls sideways instead
-   (App scrolls the current page's link into view). */
-.site-nav {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  gap: 0.35rem 1.4rem;
-  min-width: 0;
-  margin-left: 1.5rem;
-}
-
-@media (max-width: 900px) {
-  .site-nav {
-    flex-wrap: nowrap;
-    justify-content: flex-start;
-    overflow-x: auto;
-    scrollbar-width: none;          /* hide the scrollbar (Firefox) */
-  }
-}
-
-.site-nav::-webkit-scrollbar { display: none; }   /* ...and in Chrome/Safari */
-
-.site-nav a {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--muted);
-  text-decoration: none;
-  white-space: nowrap;
-  padding: 4px 0;
-  border-bottom: 2px solid transparent;
-  transition: color 0.2s, border-color 0.2s;
-}
-
-/* The page you're on: dark text, underlined */
-.site-nav a[aria-current="page"] {
-  color: var(--ink);
-  border-bottom-color: var(--ink);
-}
-
-@media (max-width: 600px) {
-  .site-nav { gap: 1.1rem; margin-left: 1rem; }
-  .site-nav a { font-size: 0.68rem; }
-}
-
 .site-header a:hover,
 .site-header a:focus-visible { color: var(--accent); }
 .site-header .brand:hover,
